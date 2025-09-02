@@ -22,3 +22,10 @@ quiz-card{
     align-items: center;
     padding-top: 15px;
 }
+
+
+.quiz_answer_card:hover{
+    cursor:pointer;
+    background-color: hotpink;
+
+}
