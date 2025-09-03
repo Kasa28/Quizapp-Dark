@@ -20,29 +20,41 @@
 
 <div class="container">
 <div class="card quiz-card">
-  <img src="./img/qiuz.png" class="card-img-top" alt="...">
-  <div class="card-body">
+  <img src="./img/qiuz.png" id="header-image" class="card-img-top" alt="...">
+
+
+
+<div class="card-body" id="endscreen" style="display: none;">
+   <div class="text-center final-headline"> Quiz beendet!
+   </div>
+
+
+<div class="text-center">
+    Du hast <b id="amount-of-right-questions">xxx</b> Fragen von <b id="amount-of-questions">xxx</b> richtig beantwortet.</div>
+
+</div>
+  <div class="card-body" id="questionbody">
     <h5 class="card-title" id="questiontext">Frage</h5>
 
-<div class="card quiz_answer_card  mb-2">
+<div class="card quiz_answer_card  mb-2" onclick="answer('answer_1')">
   <div class="card-body" id="answer_1">
     Antwort 
   </div>
 </div>
 
-<div class="card quiz_answer_card mb-2">
+<div class="card quiz_answer_card mb-2" onclick="answer('answer_2')">
   <div class="card-body" id="answer_2">
     Antwort
   </div>
 </div>
 
-<div class="card quiz_answer_card mb-2">
+<div class="card quiz_answer_card mb-2" onclick="answer('answer_3')">
   <div class="card-body" id="answer_3">
     Antwort
   </div>
 </div>
 
-<div class="card quiz_answer_card mb-2">
+<div class="card quiz_answer_card mb-2" onclick="answer('answer_4')">
   <div class="card-body" id="answer_4">
     Antwort
   </div>
@@ -51,10 +63,10 @@
 
 <div class="question-footer">
     <span>
-    <b>1</b> von <b id="all_questions">5</b> Fragen
+    <b id="numberquestion">1</b> von <b id="all_questions">5</b> Fragen
     </span>
 
-    <button class="btn btn-info">Nächste Frage</button>
+    <button onclick="nextQuestion()" class="btn btn-info" id="next" disabled>Nächste Frage</button>
     
 
 
