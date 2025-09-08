@@ -1,96 +1,71 @@
 let questions = [
     {
-        "question": "Wer hat HTML erfunden",
+        "question": "Wer hat HTML erfunden?",
         "answer_1": "Robbie Williams",
         "answer_2": "Lady Gaga",
-        "answer_3": "Tim Berners Lee",
+        "answer_3": "Tim Berners-Lee",
         "answer_4": "Justin Bieber",
         "right_answer": 3
     },
     {
-        "question": "Was bedeutet CSS?",
-        "answer_1": "Creative Style System",
-        "answer_2": "Cascading Style Sheets",
-        "answer_3": "Computer Style Structure",
-        "answer_4": "Colorful Style Scripts",
+        "question": "Was bedeutet das HTML Tag &lt;a&gt;?",
+        "answer_1": "Text Fett",
+        "answer_2": "Container",
+        "answer_3": "Ein Link",
+        "answer_4": "Kursiv",
+        "right_answer": 3
+    },
+    {
+        "question": "Wie bindet man eine Website in eine Website ein?",
+        "answer_1": "&lt;iframe&gt;, &lt;frame&gt;, and &lt;frameset&gt;",
+        "answer_2": "&lt;iframe&gt;",
+        "answer_3": "&lt;frame&gt;",
+        "answer_4": "&lt;frameset&gt;",
         "right_answer": 2
     },
     {
-        "question": "Welche Programmiersprache wird hauptsächlich für Webseiten verwendet?",
-        "answer_1": "Python",
-        "answer_2": "C++",
-        "answer_3": "JavaScript",
-        "answer_4": "Java",
-        "right_answer": 3
-    },
-    {
-        "question": "Was macht der Befehl console.log() in JavaScript?",
-        "answer_1": "Er zeigt Text auf der Webseite an",
-        "answer_2": "Er öffnet eine neue Seite",
-        "answer_3": "Er loggt den Benutzer aus",
-        "answer_4": "Er gibt eine Nachricht in der Konsole aus",
-        "right_answer": 4
-    },
-
-    {
-        "question": "Wie beginnt ein HTML-Dokument?",
-        "answer_1": "&#60;html&#62;",
-        "answer_2": "&#60;body&#62;",
-        "answer_3": "&#60;!DOCTYPE html&#62;",
-        "answer_4": "&#60;head&#62;",
-        "right_answer": 3
-    },
-    {
-        "question": "Welche HTML-Tags benutzt man für Überschriften?",
-        "answer_1": "&#60;headline&#62;",
-        "answer_2": "&#60;heading&#62;",
-        "answer_3": "&#60;h1&#62; bis &#60;h6&#62;",
-        "answer_4": "&#60;head&#62;",
-        "right_answer": 3
-    },
-    {
-        "question": "Wie bindet man eine CSS-Datei in HTML ein?",
-        "answer_1": "&#60;css&#62;style.css&#60;/css&#62;",
-        "answer_2": "&#60;link rel='stylesheet' href='style.css'&#62;",
-        "answer_3": "&#60;script src='style.css'&#62;",
-        "answer_4": "&#60;style src='style.css'&#62;",
-        "right_answer": 2
-    },
-    {
-        "question": "Wie kann man in JavaScript eine Funktion definieren?",
-        "answer_1": "function meinFunktion() { }",
-        "answer_2": "func meinFunktion()",
-        "answer_3": "define meinFunktion()",
-        "answer_4": "create function meinFunktion()",
+        "question": "Wie stellt man Text am BESTEN fett dar?",
+        "answer_1": "&lt;strong&gt;",
+        "answer_2": "CSS nutzen",
+        "answer_3": "&lt;bold&gt;",
+        "answer_4": "&lt;b&gt;",
         "right_answer": 1
     },
     {
-        "question": "Welcher Wert bedeutet in CSS: Element ist **nicht sichtbar**, aber **nimmt Platz ein**?",
-        "answer_1": "display: none",
-        "answer_2": "visibility: hidden",
-        "answer_3": "opacity: 0",
-        "answer_4": "z-index: -1",
-        "right_answer": 2
+        "question": "Welches Attribut kann man NICHT für Textarea verwenden?",
+        "answer_1": "readonly",
+        "answer_2": "max",
+        "answer_3": "from",
+        "answer_4": "spellcheck",
+        "right_answer": 1
     },
     {
-        "question": "Was ist das Standard-Ausgabeformat von console.log()?",
-        "answer_1": "Popup",
-        "answer_2": "Alert-Fenster",
-        "answer_3": "Browser-Konsole",
-        "answer_4": "Webseite",
-        "right_answer": 3
+        "question": "Wie wählst du alle Elemente vom Typ &lt;a&gt; mit dem attribut title aus?",
+        "answer_1": "a[title]{...}",
+        "answer_2": "a > title {...}",
+        "answer_3": "a.title {...}",
+        "answer_4": "a=title {...}",
+        "right_answer": 1
+    },
+    {
+        "question": "Wie definiert man in JavaScript eine Variable?",
+        "answer_1": "let 100 = rate;",
+        "answer_2": "100 = let rate;",
+        "answer_3": "rate = 100;",
+        "answer_4": "let rate = 100;",
+        "right_answer": 4
     }
 ];
 
+
 let rightQuestions = 0;
-let currentQuestion = 0;//beginnen mit erste Frage
-
-
-
+let currentQuestion = 0;
+let AUDIO_SUCCESS = new Audio('sounds/win.mp3');
+let AUDIO_FAIL = new Audio('sounds/fail.mp3');
 
 
 function init() {
-    document.getElementById('all_questions').innerHTML = questions.length;//wird angezeigt wie viel Fragen es existieren
+    document.getElementById('all-questions').innerHTML = questions.length;
 
     showQuestion();
 }
@@ -98,63 +73,91 @@ function init() {
 
 
 function showQuestion() {
+    if (gameIsOver()) {
+        showEndScreen();
+    } else {
+        updateProgressBar();
+        updateToNextQuestion();
+    }
+}
 
-    if (currentQuestion >= questions.length) { //currentQuestioon hat nummer 10 am ende weil so viele fragen sind
-    document.getElementById('endscreen').style = '';
-    document.getElementById('questionbody').style = 'display:none';
-     document.getElementById('amount-of-questions').innerHTML = questions.length;
-     document.getElementById('amount-of-right-questions').innerHTML = rightQuestions;
-     document.getElementById('header-image').src = 'img/winner.jpg'//bild ersetzen
+function gameIsOver() {
+    return currentQuestion >= questions.length;
+}
 
+function showEndScreen() {
+    document.getElementById('endScreen').style = '';
+    document.getElementById('questionBody').style = 'display: none';
+    document.getElementById('amount-of-questions').innerHTML = questions.length;
+    document.getElementById('amount-of-right-questions').innerHTML = rightQuestions;
+    document.getElementById('header-image').src = 'img/winner.jpg';
+}
 
-    }else{
-        document.getElementById('numberquestion').innerHTML = currentQuestion + 1;
+function updateProgressBar() {
+    let percent = (currentQuestion + 1) / questions.length;
+    percent = Math.round(percent * 100);
+    document.getElementById('progress-bar').innerHTML = `${percent} %`;
+    document.getElementById('progress-bar').style = `width: ${percent}%;`;
+}
 
-    let question = questions[currentQuestion];//machen container daraus holen wir aus questions die 1 frage
-
+function updateToNextQuestion() {
+    let question = questions[currentQuestion];
+    document.getElementById('question-number').innerHTML = currentQuestion + 1;
     document.getElementById('questiontext').innerHTML = question['question'];
     document.getElementById('answer_1').innerHTML = question['answer_1'];
     document.getElementById('answer_2').innerHTML = question['answer_2'];
     document.getElementById('answer_3').innerHTML = question['answer_3'];
     document.getElementById('answer_4').innerHTML = question['answer_4'];
-    }
-
 }
 
-function answer(selection){
-     let question = questions[currentQuestion];
-     let SelectedQuestionNumber = selection.slice(-1);
-     let idOfRightAnswer = `answer_${question['right_answer']}`;
 
+function answer(selection) {
+    let question = questions[currentQuestion];
+    let selectedQuestionNumber = selection.slice(-1);
+    let idOfRightAnswer = `answer_${question['right_answer']}`;
 
-        if(SelectedQuestionNumber == question['right_answer']) { //richtig beantwortrt
-            console.log('Richtig');
-            document.getElementById(selection).parentNode.classList.add('bg-success');
-            rightQuestions++;
-        }else {
-             document.getElementById(selection).parentNode.classList.add('bg-danger');
-             document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
-
-        }
-
-        document.getElementById('next').disabled = false;//Nächste Frage button kann gedrückt werden
+    if (rightAnswerSelected(selectedQuestionNumber)) { // Richtige Frage beantwortet
+        document.getElementById(selection).parentNode.classList.add('bg-success');
+        AUDIO_SUCCESS.play();
+        rightQuestions++;
+    } else {
+        document.getElementById(selection).parentNode.classList.add('bg-danger');
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+        AUDIO_FAIL.play();
     }
+    document.getElementById('next-button').disabled = false;
+}
 
-    function nextQuestion() {
-        currentQuestion++;//nächste frage 
-        document.getElementById('next').disabled = true; //das der button nächste frage wieder deaktiviert wird
-        resetAnswerButtons();
-        showQuestion();
-    }
+function rightAnswerSelected(selectedQuestionNumber) {
+  return Number(selectedQuestionNumber) === questions[currentQuestion].right_answer;
+}
 
 
-    function resetAnswerButtons() {
-         document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
-         document.getElementById('answer_1').parentNode.classList.remove('bg-success');
-         document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
-         document.getElementById('answer_2').parentNode.classList.remove('bg-success');
-         document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
-         document.getElementById('answer_3').parentNode.classList.remove('bg-success');
-         document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
-         document.getElementById('answer_4').parentNode.classList.remove('bg-success');
-    }
+function nextQuestion() {
+    currentQuestion++; // z.B. von 0 auf 1
+    document.getElementById('next-button').disabled = true;
+    resetAnswerButtons();
+    showQuestion();
+}
+
+function resetAnswerButtons() {
+    document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_1').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+}
+
+
+function restartGame() {
+    document.getElementById('header-image').src = 'img/qiuz.png';
+    document.getElementById('questionBody').style = ''; // questionBody wieder anzeigen
+    document.getElementById('endScreen').style = 'display: none'; // Endscreen ausblenden
+
+    rightQuestions = 0;
+    currentQuestion = 0;
+    init();
+}
